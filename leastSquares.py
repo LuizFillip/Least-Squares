@@ -112,23 +112,23 @@ class least_squares_cramer(object):
     """Implementation with Cramer Rule"""
     
     def __init__(self, x, y, period = 1):
-        
-        self.x = x
-        self.y = y
-        
+     
+       
         omega = 2*np.pi / period
 
-        sumA = sum((np.cos(omega*self.x))**2)
-        sumB = sum((-np.cos(omega*self.x))*np.sin(omega*self.x))
-        sumC = sum(self.y*np.cos(omega*self.x))
-        sumD = sum(np.cos(omega*self.x)*np.sin(omega*self.x))
-        sumE = sum(-(np.sin(omega*self.x))**2)
-        sumF = sum(self.y*np.sin(omega*self.x))
+        sumA = sum((np.cos(omega * x)) ** 2)
+        sumB = sum((-np.cos(omega * x)) * np.sin(omega * x))
+        sumC = sum(y* np.cos(omega * x))
+        sumD = sum(np.cos(omega * x) * np.sin(omega * x))
+        sumE = sum(-np.sin(omega * x)**2)
+        sumF = sum(y * np.sin(omega * x))
 
-        a = ((sumC*sumE) - (sumF*sumB)) / ((sumA*sumE) - (sumB*sumD))
-        b = ((sumA*sumF) - (sumD*sumC)) / ((sumA*sumE) - (sumB*sumD))
+        a = (sumC * sumE - sumF * sumB) / (sumA * sumE - sumB * sumD)
+        b = (sumA * sumF - sumD * sumC) / (sumA * sumE - sumB * sumD)
 
-        self.values = np.mean(self.y) + a*np.cos(omega*self.x) - b*np.sin(omega*self.x)
+        self.values = (np.mean(y) + 
+                       a * np.cos(omega * x) -
+                       b * np.sin(omega * x))
         
         if a > 0:
             phase = np.arctan(- b / a) 
@@ -147,15 +147,9 @@ class least_squares_cramer(object):
         self.phase = phase
         self.amplitude = np.sqrt(a**2 + b**2)
         self.omega = omega
-    
-    def get_values(self):
-        return self.x, self.values
-    
-    def results(self):
-        return np.mean(self.y), self.amplitude, self.phase 
-    
-    def get_adjust(self):
-        return np.mean(self.y) + self.amplitude * np.cos(self.omega*self.x + self.phase)
+        
+        self.adjust = ((np.mean* y) + self.amplitude * 
+                       np.cos(self.omega * x + self.phase))
     
     
 class CurveFit(object):
@@ -171,7 +165,8 @@ class CurveFit(object):
             omega = 2*np.pi / period
             return np.mean(self.y) + a * np.cos(omega*x + c) 
     
-        self.popt, self.pcov = curve_fit(func, self.x, self.y, absolute_sigma = True)
+        self.popt, self.pcov = curve_fit(func, self.x, self.y, 
+                                         absolute_sigma = True)
         
         self.perr = np.sqrt(np.diag(self.pcov))
         
