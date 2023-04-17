@@ -1,0 +1,3 @@
+# SOLAR TERMINATOR
+date = datetime(year, month, day, hour, minutes)
+a_lon_term, a_lat_term = terminator(date, 18)
