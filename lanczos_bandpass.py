@@ -41,8 +41,10 @@ def lanczos_bandpass(in_data, in_fc1, in_fc2, in_n, detrend=False, zero_endpts=F
     k[int_n] = np.nan                       # Inititalize k=0
     
     sigma = np.sin(np.pi * k / flt_n) / (np.pi * k / flt_n)
-    wbar_k = ((np.sin(2. * np.pi * fc2 * k) / (np.pi * k))
-              - (np.sin(2. * np.pi * fc1 * k) / (np.pi * k))) * sigma
+    wbar_k = (
+        (np.sin(2. * np.pi * fc2 * k) / (np.pi * k))
+              - 
+              (np.sin(2. * np.pi * fc1 * k) / (np.pi * k))) * sigma
     wbar_k[int_n] = 2.0 * (fc2 - fc1)
     
     freq = np.full(NT, np.nan)              # initialize freq vector

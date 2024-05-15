@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar  7 19:32:11 2022
-
-@author: LuizF
-"""
-
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import freqz
 from scipy.signal import butter, lfilter
 
 def butter_bandpass(lowcut, highcut, fs, order=5):
@@ -16,9 +12,7 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
     return y
 
 
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.signal import freqz
+
 
 
 '''
@@ -48,12 +42,12 @@ para taxa de amostragem.
 
 A frequência dos seus dados é diferente. Se o sinal for periódico ou 
 aproximadamente periódico (digamos, os padrões de consumo de energia 
-semelhantes se repetem todos os dias), a frequência é o número de ocorrência
- desse padrão de repetição por unidade de tempo. De maneira mais geral, se seus 
- dados não parecerem periódicos, seria útil realizar a Análise de Fourier 
- para entender os componentes de frequência em seus dados. 
- A Análise de Fourier (Fourier Transform) é a operação para transformar 
- dados no domínio do tempo no domínio da frequência.
+semelhantes se repetem todos os dias), a frequência é o número de ocorrência 
+desse padrão de repetição por unidade de tempo. 
+ 
+De maneira mais geral, se seus dados não parecerem periódicos, seria útil realizar a Análise de Fourier para entender os componentes de frequência em seus dados. 
+
+A Análise de Fourier (Fourier Transform) é a operação para transformar dados no domínio do tempo no domínio da frequência.
 
 
 '''
@@ -67,7 +61,8 @@ highcut = 1250.0
 # Filter a noisy signal.
 T = 0.05
 nsamples = T * fs
-print(nsamples)
+
+
 t = np.arange(0, nsamples) / fs
 a = 0.02
 f0 = 600.0
@@ -75,11 +70,15 @@ x = 0.1 * np.sin(2 * np.pi * 1.2 * np.sqrt(t))
 x += 0.01 * np.cos(2 * np.pi * 312 * t + 0.1)
 x += a * np.cos(2 * np.pi * f0 * t + .11)
 x += 0.03 * np.cos(2 * np.pi * 2000 * t)
+
+
 plt.figure(2)
 plt.clf()
 plt.plot(t, x, label='Noisy signal')
 
 y = butter_bandpass_filter(x, lowcut, highcut, fs, order=6)
+
+
 plt.plot(t, y, label='Filtered signal (%g Hz)' % f0)
 plt.xlabel('time (seconds)')
 plt.hlines([-a, a], 0, T, linestyles='--')
@@ -88,3 +87,4 @@ plt.axis('tight')
 plt.legend(loc='upper left')
 
 plt.show()
+
