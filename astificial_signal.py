@@ -1,15 +1,24 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May 16 08:01:11 2024
-
-@author: Luiz
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Function to generate artificial signal with noise and periodic components
-def generate_signal(duration, sampling_rate, frequencies, amplitudes, noise_level):
+def generate_signal(
+        duration = 10.0, 
+        sampling_rate = 100.0 , 
+        periods = [1.0, 3.0, 12.0], 
+        amplitudes = [1.0, 0.5, 0.2],
+        noise_level = 0.3
+        ):
+    
+    '''
+    Duration of the signal in seconds
+    Sampling rate in Hz
+    Periods of the periodic components in s
+    Amplitudes of the periodic components
+    Noise level
+    
+    '''
+    
     t = np.arange(0, duration, 1/sampling_rate)  # Time vector
     signal = np.zeros_like(t)
     
@@ -21,15 +30,11 @@ def generate_signal(duration, sampling_rate, frequencies, amplitudes, noise_leve
     
     return t, signal
 
-# Parameters
-duration = 10.0  # Duration of the signal in seconds
-sampling_rate = 100.0  # Sampling rate in Hz
-periods = [1.0, 3.0, 5.0]  # Frequencies of the periodic components in Hz
-amplitudes = [1.0, 0.5, 0.2]  # Amplitudes of the periodic components
-noise_level = 0.3  # Noise level
+
+
 
 # Generate the signal
-t, signal = generate_signal(duration, sampling_rate, frequencies, amplitudes, noise_level)
+t, signal = generate_signal()
 
 # Plot the generated signal
 plt.figure(figsize=(12, 6))
